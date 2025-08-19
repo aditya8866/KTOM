@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body class="h-screen overflow-hidden">
+
+    <header class="flex justify-between my-5 mx-10">
+        <div><img src="/dark.png" alt="" class="h-[280px] w-[280px] mt-[-80px]"></div>
+        <div class="font-medium text-2xl flex justify-evenly gap-16 mt-8">
+            <div><a href="/dashboard">Home</a></div>
+            <div><a href="/create">Create New Hisaab</a></div>
+            <a href="/logOut"
+                class="bg-red-600 rounded-xl  text-white w-[120px] h-[45px] mt-[-5px] ml-[-30px] flex justify-center items-center">Log
+                Out</a>
+        </div>
+    </header>
+    <div class="w-screen flex gap-12 ml-[70px] mt-[-40px]">
+        <%if(hisaabD.isEncrypted){%>
+            <p class="flex items-center justify-center gap-2 text-white whitespace-nowrap font-semibold text-lg bg-blue-400 hover:bg-blue-500 w-40  rounded-2xl shadow-md transition-all">🔒 Locked File
+            </p>
+            <%}else{%>
+                <p class="flex items-center justify-center gap-2 text-white font-semibold text-lg bg-blue-400 hover:bg-blue-500 w-28 py-2 rounded-2xl shadow-md transition-all">🔓 Unlocked File</p>
+                <%}%>
+
+                    <div class="flex gap-8 ml-[-12px] ">
+                        <a href="/edit/<%=userID%>/<%=hisaabD._id%>"
+                            class="flex items-center justify-center gap-2 text-white font-semibold text-lg bg-yellow-500 hover:bg-yellow-500 w-28 py-2 rounded-2xl shadow-md transition-all">
+                            ✏️ Edit
+                        </a>
+
+                        <a href="/delete/<%=userID%>/<%=hisaabD._id%>"
+                            class="flex items-center justify-center gap-2 text-white font-semibold text-lg bg-red-500 hover:bg-red-600 w-28 py-2 rounded-2xl shadow-md transition-all">
+                            🗑️ Delete
+                        </a>
+                    </div>
+    </div>
+    <div class="ml-[70px] mt-6">
+        <p class="text-xl text-gray-400 font-bold">Created on <%= new Date(hisaabD.date).toLocaleString()  %></p>
+        <p class="text-4xl font-semibold mt-3"><%=hisaabD.title%></p>
+        <p class="text-2xl font-medium mt-4 text-gray-700"><%=hisaabD.detail%></p>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body class="h-screen overflow-hidden">
+
+    <header class="flex justify-between my-5 mx-10">
+        <div><img src="/dark.png" alt="" class="h-[280px] w-[280px] mt-[-80px]"></div>
+        <div class="font-medium text-2xl flex justify-evenly gap-16 mt-8">
+            <div><a href="/dashboard">Home</a></div>
+            <div><a href="/create">Create New Hisaab</a></div>
+            <a href="/logOut"
+                class="bg-red-600 rounded-xl  text-white w-[120px] h-[45px] mt-[-5px] ml-[-30px] flex justify-center items-center">Log
+                Out</a>
+        </div>
+    </header>
+
+    <div class="ml-[70px] mt-6">
+
+
+        <form action="/edit/<%=user._id%>/<%=hisaab._id%>" method="POST" class="w-1/3 mx-auto p-6 bg-white rounded-2xl shadow-lg space-y-5 mt-[-100px]">
+            <div class="flex justify-between w-full">
+            <h2 class="text-2xl font-bold text-gray-700 mt-4">Edit Hisaab</h2>
+            <div class="    ">
+                <%if(hisaab.isEncrypted){%>
+                    <p
+                        class="flex py-3 items-center justify-center gap-2 text-white whitespace-nowrap font-semibold text-lg bg-blue-400 hover:bg-blue-500 w-40  rounded-2xl shadow-md transition-all">
+                        🔒 Locked File
+                    </p>
+                    <%}else{%>
+                        <p
+                            class="flex items-center justify-center gap-2 text-white font-semibold text-lg bg-blue-400 hover:bg-blue-500 w-28 py-2 rounded-2xl shadow-md transition-all">
+                            🔓 Unlocked File</p>
+                        <%}%>
+
+            </div>
+            </div>
+            <p class="text-xl text-gray-400 font-bold">Created on <%= new Date(hisaab.date).toLocaleString() %>
+            </p>
+            <div>
+                <label for="title" class="block text-gray-600 font-semibold mb-2">Title</label>
+                <input type="text" name="title" id="title" value="<%= hisaab.title %>"
+                    class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg shadow-sm" />
+            </div>
+
+            <div>
+                <label for="detail" class="block text-gray-600 font-semibold mb-2">Detail</label>
+                <textarea name="detail" id="detail" rows="5"
+                    class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg shadow-sm resize-none"><%= hisaab.detail %></textarea>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all">
+                    💾 Save Changes
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+
+</body>
+
+</html>

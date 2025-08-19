@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body class="h-screen overflow-hidden">
+
+    <header class="flex justify-between my-5 mx-10">
+        <div><img src="/dark.png" alt="" class="h-[280px] w-[280px] mt-[-80px]"></div>
+        <div class="font-medium text-2xl flex justify-evenly gap-16 mt-8">
+            <div><a href="/dashboard">Home</a></div>
+            <div><a href="/create">Create New Hisaab</a></div>
+            <a href="/logOut"
+                class="bg-red-600 rounded-xl text-white w-[120px] h-[45px] mt-[-5px] ml-[-30px] flex justify-center items-center">
+                Log Out
+            </a>
+        </div>
+    </header>
+
+    <div class="ml-20 mt-[-50px] w-full">
+        <h1 class="text-3xl font-semibold mb-4">Your Hisaabs</h1>
+
+        <% if (!hisaabDetails || hisaabDetails.length===0) { %>
+            <p class="text-xl text-gray-600">No Hisaab available. Please create one.</p>
+            <% } else { %>
+                <div class="grid grid-cols-2 gap-8 w-1/2 h-[145px]">
+                    <% hisaabDetails.forEach(function(hisaab) { %>
+                        <div class="border rounded-lg p-4 shadow bg-gray-50 hover:bg-gray-100">
+                            <div class="flex justify-between">
+                                <% if (hisaab.isEncrypted) { %>
+                                    <p class="text-red-500 font-semibold text-lg">🔒 Encrypted</p>
+                                    <% } else { %>
+                                        <p class="text-green-500 font-semibold text-lg">🔓 Not Encrypted</p>
+                                        <% } %>
+
+                                            <p class="text-lg text-gray-600 mb-1">Date: <%= new
+                                                    Date(hisaab.date).toLocaleDateString() %>
+                                            </p>
+                            </div>
+
+                            <h2 class="text-2xl font-semibold mt-2 ml-2 mb-2">
+                                <%= hisaab.title %>
+                            </h2>
+
+                            <button
+                                onclick="handleViewHisaab('<%= hisaab._id %>', '<%= hisaab.encryptedPassword %>', '<%= hisaab.isEncrypted %>')">
+                                View Hisaab
+                            </button>
+
+
+                        </div>
+                        <% }); %>
+                </div>
+                <% } %>
+    </div>
+    <div id="passcodeModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-80">
+            <h2 class="text-lg font-semibold mb-4">Enter Passcode</h2>
+            <input type="password" id="passcodeInput"
+                class="border border-gray-300 rounded px-3 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Passcode">
+            <button onclick="submitPasscode()"
+                class="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600">Submit</button>
+            <button onclick="closeModal()" class="text-gray-500 text-sm mt-3 underline">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // ✅ Global variables (accessible in all functions)
+        let selectedHisaabId = null;
+        let actualHisaabPassword = null;
+
+        function handleViewHisaab(hisaabId, actualPassword, isEncrypted) {
+            
+            if (isEncrypted === "true") {
+                selectedHisaabId = hisaabId;                // Store globally
+                actualHisaabPassword = actualPassword;      // Store globally
+
+                document.getElementById('passcodeModal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('passcodeInput').focus();
+                }, 100);
+            } else {
+                window.location.href = `/read/<%= userId %>/` + hisaabId;
+            }
+        }
+
+        function submitPasscode() {
+            const passcode = document.getElementById('passcodeInput').value.trim();
+            if (!passcode) {
+                alert("Please enter passcode.");
+                return;
+            }
+            if (passcode === actualHisaabPassword) {
+                // Password matches: redirect
+                window.location.href = `/read/<%= userId %>/` + selectedHisaabId + `?passcode=${encodeURIComponent(passcode)}`;
+            } else {
+                alert("Incorrect passcode.");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('passcodeModal').classList.add('hidden');
+            document.getElementById('passcodeInput').value = '';
+        }
+    </script>
+
+</body>
+
+</html>
