@@ -1,6 +1,6 @@
-# ktom
+# KTOM
 
-ktom is a web application for managing personal finances and ledgers. Users can sign up, log in, and securely create, edit, view, and delete financial records ("Hisaab"), with optional encryption for privacy.
+KTOM is a web application for managing personal finances and ledgers. Users can sign up, log in, and securely create, edit, view, and delete financial records ("Hisaab"), with optional encryption for privacy.
 
 ## Features
 
@@ -52,7 +52,4 @@ ktom is a web application for managing personal finances and ledgers. Users can 
 - Access your dashboard at `/dashboard`
 - Create new Hisaab entries at `/create`
 - Edit or delete entries from the dashboard
-
-## License
-
-MIT
+   
